@@ -1,4 +1,5 @@
 This package collects pithy sayings.
 
 It's part of a demonstration of
-[package versioning in Go](https://research.swtch.com/vgo1).
+
+[A Tour of Versioned Go (vgo)](https://research.swtch.com/vgo-tour)
