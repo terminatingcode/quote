@@ -33,12 +33,43 @@ _“The result of a build of a given version of a package should not change over
 Example project requirements:
 ```
 A 1.20 needs B ≥ 1.3, C ≥ 1.8
-B 1.3 neew D ≥ 1.3
+B 1.3 needs D ≥ 1.3
 C 1.8 needs D ≥ 1.4
 ```
-vgo will not care if D 1.5 higher are released. It will always choose D 1.4 given these constraints
-I.e. **Minimum version selection**
+vgo will not care if D 1.5 higher are released. It will **always choose D 1.4** given these constraints
+
+I.e. [**Minimum version selection**](https://research.swtch.com/vgo-mvs)
 
 - Objection: using the latest version is a feature! Tools should update things automatically
   - BUT why do we have lock files? Because repeatability is more important
 
+## Go mod Cheatsheet:
+```
+$ go mod help
+Go mod provides access to operations on modules.
+
+Note that support for modules is built into all the go commands,
+not just 'go mod'. For example, day-to-day adding, removing, upgrading,
+and downgrading of dependencies should be done using 'go get'.
+See 'go help modules' for an overview of module functionality.
+
+Usage:
+
+	go mod <command> [arguments]
+
+The commands are:
+
+	download    download modules to local cache
+	edit        edit go.mod from tools or scripts
+	graph       print module requirement graph
+	init        initialize new module in current directory
+	tidy        add missing and remove unused modules
+	vendor      make vendored copy of dependencies
+	verify      verify dependencies have expected content
+	why         explain why packages or modules are needed
+```
+
+## Useful Links:
+- Go 1.11 [Release Notes](https://golang.org/doc/go1.11)
+- Go Package Registry: [Athens](https://github.com/gomods/athens)
+- Original [vgo proposal](https://research.swtch.com/vgo)
