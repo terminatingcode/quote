@@ -5,9 +5,10 @@ It's part of a demonstration of
 [A Tour of Versioned Go (vgo)](https://research.swtch.com/vgo-tour)
 
 ## TL;DR:
-- You can build a Go project from outside the $GOPATH or even defining it
+- You can build a Go project from outside the $GOPATH as dependencies and compilation are now centralised in the build cache and the modules cache.
 - Minimum Version Selection algorithm increases repeatability of consistent builds with the same compatible dependency version and transient dependency versions.
 - dependencies are stored in the Module Cache (`$HOME/go/src/mod`) that can be reused in other projects.
+- only need to check in `go.mod` that defines the dependencies and the `go.sum` which contains the checksums of the modules.
 
 ## Package versioning with Go:
 See Russ Cox's presentation on [Go with Versions](https://www.youtube.com/watch?v=F8nrpe0XWRg&list=PLq2Nv-Sh8EbbIjQgDzapOFeVfv5bGOoPE&index=3&t=0s)
@@ -84,6 +85,8 @@ Download any missing dependencies:
 ```
 go build ./...
 ```
+
+### Additional dependency management:
 Ensure dependencies reflect:
 ```
 go mod tidy
@@ -92,6 +95,13 @@ go mod tidy
 Upgrade a depdency:
 - run `go get -u` to use the latest minor or patch releases
 - run `go get -u=patch` to use the latest patch releases
+
+Verify dependencies:
+
+"checks that the on-disk cached copies of module downloads still match the entries in `go.sum`"
+```
+go mod verify
+```
 
 ## Build Cache:
 Everytime a Go project is compiled, it will store results in the $GOCACHE directory. The $GOCACHE default location is `$HOME/.cache/go-build` where, as Russ Cox explains: "if you run this exact compiler on these exact inputs. this is the output you’d get. If the answer is not in the cache, your build uses a little more CPU to run the compiler instead of reusing the output."
@@ -105,4 +115,4 @@ Source code dependencies are now downloaded and stored in the module cache which
 - Go Package Registry: [Athens](https://github.com/gomods/athens)
 - Original [vgo proposal](https://research.swtch.com/vgo)
 - Go Modules [Wiki](https://github.com/golang/go/wiki/Modules)
-- [Taking Go Modules](https://dave.cheney.net/2018/07/14/taking-go-modules-for-a-spin) for a Spin by Dave Cheney
+- [Taking Go Modules for a Spin](https://dave.cheney.net/2018/07/14/taking-go-modules-for-a-spin) by Dave Cheney
